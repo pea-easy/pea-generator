@@ -69,8 +69,7 @@ module.exports = class extends Generator {
 
 
     writing() {
-        this.options = this.options || {};
-        if (this.options && this.options.createDirectory) {
+        if (this.options && this.options.createDirectory && this.options.dirname) {
             this.destinationRoot(this.options.dirname);
         } else {
             this.options.dirname = path.basename(this.destinationRoot());
@@ -88,8 +87,11 @@ module.exports = class extends Generator {
             this.templatePath('./lib/middleware/pluginInit.js'),
             this.destinationPath('./lib/middleware/pluginInit.js')
         );
+        this.fs.copy(
+            this.templatePath('./lib/middleware/responseJSON.js'),
+            this.destinationPath('./lib/middleware/responseJSON.js')
+        );
 
-        mkdirp('public');
         mkdirp('app/controllers');
         this.fs.copy(
             this.templatePath('app/controllers/user-ctrl.js'),
@@ -122,6 +124,15 @@ module.exports = class extends Generator {
         this.fs.write(this.destinationPath('config/config.js'), loggerIndexTmpl({
             project_name: this.options.dirname
         }));
+
+        mkdirp('public');
+
+
+        this.fs.copy(
+            this.templatePath('app/routes/apiguide/user.js'),
+            this.destinationPath('app/routes/apiguide/user.js')
+        );
+        
 
 
 

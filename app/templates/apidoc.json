@@ -1,8 +1,8 @@
 {
-  "name": "PEA",
+  "name": "<%- project_name %>",
   "version": "0.1.0",
-  "description": "the api document for PEA",
-  "title": "BlockTrending",
+  "description": "the api document for <%- project_name %>",
+  "title": "<%- project_name %>",
   "url" : "http://localhost:8899",
   "sampleUrl": "http://localhost:8899",
   "header": {

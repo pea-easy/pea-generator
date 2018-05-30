@@ -1,6 +1,6 @@
 module.exports = {
     logger: {
-        name: 'bt',
+        name: '<%- project_name %>',
         level: 'info'
     },
     smsConfig: {
