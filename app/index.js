@@ -10,9 +10,11 @@ module.exports = class extends Generator {
         this.option('babel');
     }
     initializing() {
+        this.options = {};
         Banner();
     }
     dir() {
+       
         if (this.options.createDirectory !== undefined) {
             return true;
         }
@@ -26,10 +28,8 @@ module.exports = class extends Generator {
         return this.prompt(prompt).then((response) => {
             this.options.createDirectory = response.createDirectory;
         });
-
     }
     dirname() {
-        this.log('hello')
         if (!this.options.createDirectory || this.options.dirname) {
             return true;
         }
@@ -69,13 +69,10 @@ module.exports = class extends Generator {
 
 
     writing() {
-        this.log('---', this.options);
         this.options = this.options || {};
         if (this.options && this.options.createDirectory) {
-            this.log('1')
             this.destinationRoot(this.options.dirname);
         } else {
-            this.log('2')
             this.options.dirname = path.basename(this.destinationRoot());
         }
         // this.destinationRoot(this.options.dirname);
