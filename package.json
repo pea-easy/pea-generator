@@ -1,0 +1,19 @@
+{
+  "name": "generator-bt",
+  "version": "0.0.1",
+  "description": "a tool for generate project",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/index.js"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "tim",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "mkdirp": "^0.5.1",
+    "yeoman-generator": "^2.0.5"
+  }
+}

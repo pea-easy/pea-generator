@@ -1,0 +1,8 @@
+{
+  "generator-bt": {
+    "promptValues": {
+      "name": "23",
+      "database": "MongoDB"
+    }
+  }
+}
