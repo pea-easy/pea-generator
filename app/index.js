@@ -4,6 +4,7 @@ var mkdirp = require('mkdirp');
 var path = require('path');
 var _ = require('lodash');
 var extend = require('deep-extend');
+var plugin = require('./plugin');
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -142,15 +143,15 @@ module.exports = class extends Generator {
             project_name: this.options.dirname
         }));
 
-        var developmentTmpl = _.template(this.fs.read(this.templatePath('config/development.js')));
-        this.fs.write(this.destinationPath('config/development.js'), developmentTmpl({
-            project_name: this.options.dirname
-        }));
+        // var developmentTmpl = _.template(this.fs.read(this.templatePath('config/development.js')));
+        // this.fs.write(this.destinationPath('config/development.js'), developmentTmpl({
+        //     project_name: this.options.dirname
+        // }));
 
-        var pluginTmpl = _.template(this.fs.read(this.templatePath('config/plugin.js')));
-        this.fs.write(this.destinationPath('config/plugin.js'), pluginTmpl({
-            project_name: this.options.dirname
-        }));
+        // var pluginTmpl = _.template(this.fs.read(this.templatePath('config/plugin.js')));
+        // this.fs.write(this.destinationPath('config/plugin.js'), pluginTmpl({
+        //     project_name: this.options.dirname
+        // }));
 
 
         mkdirp('public');
@@ -234,8 +235,8 @@ module.exports = class extends Generator {
         pkg.name = this.options.dirname;
         this.fs.writeJSON(this.destinationPath('package.json'), pkg);
         // pkg.author = this.options.dirname;
+        plugin.generatePlugin(this.options)(this);
 
-        var plugin = this.fs.readJSON(this.templatePath('app/plugin.js'), {});
 
     }
     install() {
