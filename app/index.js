@@ -3,6 +3,7 @@ let Banner = require('../util/banner');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var _ = require('lodash');
+var extend = require('deep-extend');
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -14,7 +15,7 @@ module.exports = class extends Generator {
         Banner();
     }
     dir() {
-       
+
         if (this.options.createDirectory !== undefined) {
             return true;
         }
@@ -83,14 +84,16 @@ module.exports = class extends Generator {
         mkdirp('lib');
         mkdirp('lib/middleware');
 
-        this.fs.copy(
-            this.templatePath('./lib/middleware/pluginInit.js'),
-            this.destinationPath('./lib/middleware/pluginInit.js')
-        );
+
         this.fs.copy(
             this.templatePath('./lib/middleware/responseJSON.js'),
             this.destinationPath('./lib/middleware/responseJSON.js')
         );
+        this.fs.copy(
+            this.templatePath('./lib/spec.js'),
+            this.destinationPath('./lib/spec.js')
+        );
+
 
         mkdirp('app/controllers');
         this.fs.copy(
@@ -98,6 +101,11 @@ module.exports = class extends Generator {
             this.destinationPath('app/controllers/user-ctrl.js')
         );
         mkdirp('app/dao');
+        this.fs.copy(
+            this.templatePath('app/dao/user-dao.js'),
+            this.destinationPath('app/dao/user-dao.js')
+        );
+
         mkdirp('app/routes');
         mkdirp('app/routes/apiguide');
         this.fs.copy(
@@ -112,6 +120,10 @@ module.exports = class extends Generator {
             this.templatePath('app/routes/apiguide/user.js'),
             this.destinationPath('app/routes/apiguide/user.js')
         );
+        this.fs.copy(
+            this.templatePath('app/routes/apiguide/user.js'),
+            this.destinationPath('app/routes/apiguide/user.js')
+        );
         mkdirp('app/service');
         mkdirp('app/service/validate');
         this.fs.copy(
@@ -119,22 +131,115 @@ module.exports = class extends Generator {
             this.destinationPath('app/service/validate/validate-user.js')
         );
 
+        this.fs.copy(
+            this.templatePath('app/service/user-server.js'),
+            this.destinationPath('app/service/user-server.js')
+        );
+
         mkdirp('config');
-        var loggerIndexTmpl = _.template(this.fs.read(this.templatePath('config/config.js')));
-        this.fs.write(this.destinationPath('config/config.js'), loggerIndexTmpl({
+        var configTmpl = _.template(this.fs.read(this.templatePath('config/config.js')));
+        this.fs.write(this.destinationPath('config/config.js'), configTmpl({
             project_name: this.options.dirname
         }));
 
+        var developmentTmpl = _.template(this.fs.read(this.templatePath('config/development.js')));
+        this.fs.write(this.destinationPath('config/development.js'), developmentTmpl({
+            project_name: this.options.dirname
+        }));
+
+        var pluginTmpl = _.template(this.fs.read(this.templatePath('config/plugin.js')));
+        this.fs.write(this.destinationPath('config/plugin.js'), pluginTmpl({
+            project_name: this.options.dirname
+        }));
+
+
         mkdirp('public');
-
-
         this.fs.copy(
-            this.templatePath('app/routes/apiguide/user.js'),
-            this.destinationPath('app/routes/apiguide/user.js')
+            this.templatePath('.eslintrc.json'),
+            this.destinationPath('.eslintrc.json')
         );
-        
+        var apidocTmpl = _.template(this.fs.read(this.templatePath('apidoc.json')));
+        this.fs.write(this.destinationPath('apidoc.js'), apidocTmpl({
+            project_name: this.options.dirname
+        }));
+        this.fs.copy(
+            this.templatePath('eslintignore'),
+            this.destinationPath('eslintignore')
+        );
+        this.fs.copy(
+            this.templatePath('index.js'),
+            this.destinationPath('index.js')
+        );
+
+        var readmeTmpl = _.template(this.fs.read(this.templatePath('README.md')));
+        this.fs.write(this.destinationPath('README.md'), readmeTmpl({
+            project_name: this.options.dirname
+        }));
+        this.fs.copy(
+            this.templatePath('server.js'),
+            this.destinationPath('server.js')
+        );
 
 
+
+
+        var pkg = this.fs.readJSON(this.templatePath('app/package.json'), {});
+        extend(pkg, {
+            dependencies: {
+                '@koa/cors': '^2.2.1',
+                'apidoc': '^0.17.6',
+                'debug': '^2.6.3',
+                'jslint': '^0.12.0',
+                'koa': '^2.5.1',
+                'koa-bodyparser': '^3.2.0',
+                'koa-convert': '^1.2.0',
+                'koa-json': '^2.0.2',
+                'koa-logger': '^2.0.1',
+                'koa-onerror': '^1.2.1',
+                'koa-router': '^7.1.1',
+                'koa-static': '^3.0.0',
+                'koa-static-plus': '^0.1.1',
+                'koa-views': '^5.2.1',
+                'log4js': '^2.7.0',
+                'quick-logger': '0.0.11'
+            },
+            devDependencies: {
+                'apidoc': '^0.16.1',
+                'chai': '^3.5.0',
+                'chai3-json-schema': '^1.2.1',
+                'co-mocha': '^1.1.2',
+                'co-supertest': '0.0.10',
+                'mocha': '^2.5.3',
+                'supertest': '^1.2.0'
+            }
+        });
+
+
+        switch (this.options.database) {
+        case 'mongodb':
+            mkdirp('model');
+            this.fs.copy(
+                this.templatePath('model/user.js'),
+                this.destinationPath('model/user.js')
+            );
+            this.fs.copy(
+                this.templatePath('model/index.js'),
+                this.destinationPath('model/index.js')
+            );
+            pkg.dependencies.mongoose = '^4.11.7';
+            pkg.dependencies['mongoose-paginate'] = '^5.0.3';
+            break;
+        }
+
+        pkg.name = this.options.dirname;
+        this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+        // pkg.author = this.options.dirname;
+
+        var plugin = this.fs.readJSON(this.templatePath('app/plugin.js'), {});
 
     }
+    install() {
+        this.installDependencies({ bower: false });
+    }
+
 };

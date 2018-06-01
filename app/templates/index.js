@@ -13,7 +13,7 @@ const cors = require('@koa/cors');
 
 require('./lib/spec');
 const index = require('./app/routes/index');
-const users = require('./app/routes/users');
+const user = require('./app/routes/user');
 const responseJSON = require('./lib/middleware/responseJSON');
 
 // error handler
@@ -40,7 +40,7 @@ app.use(responseJSON());
 
 // routes
 app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+app.use(user.routes(), user.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
