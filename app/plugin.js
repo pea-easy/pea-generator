@@ -3,43 +3,31 @@ var _ = require('lodash');
 
 exports.generatePlugin = function (params) {
     return function (obj) {
-        var mongo = {};
-        var redis = {};
         let development = _.template(obj.fs.read(obj.templatePath('config/development.js')));
         let plugin =  _.template(obj.fs.read(obj.templatePath('config/plugin.js')));
         if (params.database === 'mongodb' && !params.redis) {
-            mongo.plugin = {
-                enable: true,
-                package: 'pea-mongoose'
-            };
-            development = _.template(obj.fs.read(obj.templatePath('config/mongo.js')));
-        
-            mongo.config = {
-                host: '127.0.0.1',
-                port: 27017
-            };
-            
+            obj.pkg.dependencies['pea-mongoose'] = '0.0.1';
+            development = _.template(obj.fs.read(obj.templatePath('config/development-mongo.js')));
+            plugin =  _.template(obj.fs.read(obj.templatePath('config/plugin-mongo.js')));
         }
-        if (params.redis) {
-            redis.plugin = {
-                enable: true,
-                package: 'pea-redis'
-            };
-            redis.config = {
-                host: '127.0.0.1'
-            };
+        if (params.redis && params.database != 'mongodb') {
+            obj.pkg.dependencies['pea-redis'] = '0.0.1';
+            development = _.template(obj.fs.read(obj.templatePath('config/development-redis.js')));
+            plugin =  _.template(obj.fs.read(obj.templatePath('config/plugin-redis.js')));
         }
-        obj.fs.write(obj.destinationPath('config/config.js'), development({
-            mongo: mongo.config,
-            redis: redis.config,
+        if (params.redis && params.database === 'mongodb') {
+            obj.pkg.dependencies['pea-redis'] = '0.0.1';
+            obj.pkg.dependencies['pea-mongoose'] = '0.0.1';
+            development = _.template(obj.fs.read(obj.templatePath('config/development-mongo-redis.js')));
+            plugin =  _.template(obj.fs.read(obj.templatePath('config/plugin-mongo-redis.js')));
+        }
+        obj.fs.write(obj.destinationPath('config/development.js'), development({
             project_name: params.dirname
         }));
         obj.fs.write(obj.destinationPath('config/plugin.js'), plugin({
-            mongo: mongo.plugin,
-            redis: redis.plugin,
             project_name: params.dirname
         }));
-    
+        obj.fs.writeJSON(obj.destinationPath('package.json'), obj.pkg);
     };
 
    

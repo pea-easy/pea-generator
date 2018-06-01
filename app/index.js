@@ -231,9 +231,8 @@ module.exports = class extends Generator {
             pkg.dependencies['mongoose-paginate'] = '^5.0.3';
             break;
         }
-
+        this.pkg = pkg;
         pkg.name = this.options.dirname;
-        this.fs.writeJSON(this.destinationPath('package.json'), pkg);
         // pkg.author = this.options.dirname;
         plugin.generatePlugin(this.options)(this);
 
