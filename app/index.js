@@ -58,9 +58,7 @@ module.exports = class extends Generator {
             message: 'Select a database to use:',
             choices: [
                 'None',
-                'MongoDB',
-                'MySQL',
-                'PostgreSQL'
+                'MongoDB'
             ],
             store: true,
         }];
@@ -68,6 +66,7 @@ module.exports = class extends Generator {
             this.options.database = response.database.toLowerCase();
         });
     }
+    
 
 
     writing() {
@@ -89,6 +88,10 @@ module.exports = class extends Generator {
         this.fs.copy(
             this.templatePath('./lib/middleware/responseJSON.js'),
             this.destinationPath('./lib/middleware/responseJSON.js')
+        );
+        this.fs.copy(
+            this.templatePath('./lib/middleware/pluginInit.js'),
+            this.destinationPath('./lib/middleware/pluginInit.js')
         );
         this.fs.copy(
             this.templatePath('./lib/spec.js'),
@@ -202,7 +205,7 @@ module.exports = class extends Generator {
                 'koa-static-plus': '^0.1.1',
                 'koa-views': '^5.2.1',
                 'log4js': '^2.7.0',
-                'quick-logger': '0.0.11'
+                'pea-logger': '0.0.11'
             },
             devDependencies: {
                 'apidoc': '^0.16.1',
