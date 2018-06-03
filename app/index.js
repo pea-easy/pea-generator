@@ -82,7 +82,7 @@ module.exports = class extends Generator {
 
         this.fs.copy(
             this.templatePath('.core/initConfig.js'),
-            this.destinationPath('.core/middleware/initConfig.js')
+            this.destinationPath('.core/initConfig.js')
         );
 
         this.fs.copy(
@@ -90,10 +90,14 @@ module.exports = class extends Generator {
             this.destinationPath('.core/initPlugin.js')
         );
 
+        this.fs.copy(
+            this.templatePath('.core/index.js'),
+            this.destinationPath('.core/index.js')
+        );
+
 
         mkdirp('lib');
         mkdirp('lib/middleware');
-
 
         this.fs.copy(
             this.templatePath('./lib/middleware/responseJSON.js'),

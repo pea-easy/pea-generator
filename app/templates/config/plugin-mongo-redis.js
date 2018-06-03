@@ -1,7 +1,7 @@
 module.exports = {
     logger: {
         enable:true,
-        package:'quick-logger'
+        package:'pea-logger'
     },
     mongo: {
         enable:true,
