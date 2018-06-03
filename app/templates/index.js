@@ -11,6 +11,7 @@ const cors = require('@koa/cors');
 //     pathPrefix: '/public'
 // }));
 
+require('./.core/index');
 require('./lib/spec');
 const index = require('./app/routes/index');
 const user = require('./app/routes/user');
