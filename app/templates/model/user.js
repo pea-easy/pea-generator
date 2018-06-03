@@ -5,7 +5,7 @@ let mongoosePaginate = require('mongoose-paginate');
 var userSchema = new mongoose.Schema({
     //user email
     username: { type: String },
-    age: { Number: String },
+    age: { type: Number },
     
     //-------Audit field-----------------------
     //create date
