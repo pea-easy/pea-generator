@@ -1,7 +1,7 @@
 class validateUser {
     static async getUser(condition) {
         if (!condition.id) {
-            throw 'User id Lost';
+            throw 'id is Lost';
         }
     }
 }

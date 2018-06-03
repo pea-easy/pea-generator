@@ -1,7 +1,7 @@
 
 
 class serviceDao {
-    static async find(connection, condition) {
+    static async find(condition) {
         let result;
         let users = [{
             id:1,
