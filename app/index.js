@@ -146,16 +146,6 @@ module.exports = class extends Generator {
             project_name: this.options.dirname
         }));
 
-        // var developmentTmpl = _.template(this.fs.read(this.templatePath('config/development.js')));
-        // this.fs.write(this.destinationPath('config/development.js'), developmentTmpl({
-        //     project_name: this.options.dirname
-        // }));
-
-        // var pluginTmpl = _.template(this.fs.read(this.templatePath('config/plugin.js')));
-        // this.fs.write(this.destinationPath('config/plugin.js'), pluginTmpl({
-        //     project_name: this.options.dirname
-        // }));
-
 
         mkdirp('public');
         this.fs.copy(
