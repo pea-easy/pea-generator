@@ -78,7 +78,17 @@ module.exports = class extends Generator {
         // this.destinationRoot(this.options.dirname);
         // this.destinationRoot();
         // this.(path.join(__dirname, 'template'));
+        mkdirp('.core');
 
+        this.fs.copy(
+            this.templatePath('.core/initConfig.js'),
+            this.destinationPath('.core/middleware/initConfig.js')
+        );
+
+        this.fs.copy(
+            this.templatePath('.core/initPlugin.js'),
+            this.destinationPath('.core/initPlugin.js')
+        );
 
 
         mkdirp('lib');
@@ -89,57 +99,84 @@ module.exports = class extends Generator {
             this.templatePath('./lib/middleware/responseJSON.js'),
             this.destinationPath('./lib/middleware/responseJSON.js')
         );
-        this.fs.copy(
-            this.templatePath('./lib/middleware/pluginInit.js'),
-            this.destinationPath('./lib/middleware/pluginInit.js')
-        );
-        this.fs.copy(
-            this.templatePath('./lib/spec.js'),
-            this.destinationPath('./lib/spec.js')
-        );
+      
 
-
-        mkdirp('app/controllers');
-        this.fs.copy(
-            this.templatePath('app/controllers/user-ctrl.js'),
-            this.destinationPath('app/controllers/user-ctrl.js')
-        );
-        mkdirp('app/dao');
-        this.fs.copy(
-            this.templatePath('app/dao/user-dao.js'),
-            this.destinationPath('app/dao/user-dao.js')
-        );
-
-        mkdirp('app/routes');
+        if(this.options.database === 'mongodb'){
+            mkdirp('app/controllers');
+            this.fs.copy(
+                this.templatePath('app/controllers/user-mongo-ctrl.js'),
+                this.destinationPath('app/controllers/user-ctrl.js')
+            );
+            this.fs.copy(
+                this.templatePath('./lib/spec-mongo.js'),
+                this.destinationPath('./lib/spec.js')
+            );
+            mkdirp('app/dao');
+            this.fs.copy(
+                this.templatePath('app/dao/user-mongo-dao.js'),
+                this.destinationPath('app/dao/user-dao.js')
+            );
+            mkdirp('app/routes');
+            this.fs.copy(
+                this.templatePath('app/routes/index.js'),
+                this.destinationPath('app/routes/index.js')
+            );
+            this.fs.copy(
+                this.templatePath('app/routes/user-mongo.js'),
+                this.destinationPath('app/routes/user.js')
+            );
+          
+            mkdirp('app/service');
+            mkdirp('app/service/validate');
+            this.fs.copy(
+                this.templatePath('app/service/validate/validate-mongo-user.js'),
+                this.destinationPath('app/service/validate/validate-user.js')
+            );
+            this.fs.copy(
+                this.templatePath('app/service/user-mongo-server.js'),
+                this.destinationPath('app/service/user-server.js')
+            );
+        }else{
+            mkdirp('app/controllers');
+            this.fs.copy(
+                this.templatePath('app/controllers/user-ctrl.js'),
+                this.destinationPath('app/controllers/user-ctrl.js')
+            );
+            mkdirp('app/dao');
+            this.fs.copy(
+                this.templatePath('app/dao/user-dao.js'),
+                this.destinationPath('app/dao/user-dao.js')
+            );
+            mkdirp('app/routes');
+            this.fs.copy(
+                this.templatePath('app/routes/index.js'),
+                this.destinationPath('app/routes/index.js')
+            );
+            this.fs.copy(
+                this.templatePath('app/routes/user.js'),
+                this.destinationPath('app/routes/user.js')
+            );
+            mkdirp('app/service');
+            mkdirp('app/service/validate');
+            this.fs.copy(
+                this.templatePath('app/service/validate/validate-user.js'),
+                this.destinationPath('app/service/validate/validate-user.js')
+            );
+            this.fs.copy(
+                this.templatePath('app/service/user-server.js'),
+                this.destinationPath('app/service/user-server.js')
+            );
+            this.fs.copy(
+                this.templatePath('./lib/spec.js'),
+                this.destinationPath('./lib/spec.js')
+            );
+        }
+         
         mkdirp('app/routes/apiguide');
         this.fs.copy(
-            this.templatePath('app/routes/index.js'),
-            this.destinationPath('app/routes/index.js')
-        );
-        this.fs.copy(
-            this.templatePath('app/routes/user.js'),
-            this.destinationPath('app/routes/user.js')
-        );
-        this.fs.copy(
             this.templatePath('app/routes/apiguide/user.js'),
             this.destinationPath('app/routes/apiguide/user.js')
         );
-        this.fs.copy(
-            this.templatePath('app/routes/apiguide/user.js'),
-            this.destinationPath('app/routes/apiguide/user.js')
-        );
-        mkdirp('app/service');
-        mkdirp('app/service/validate');
-        this.fs.copy(
-            this.templatePath('app/service/validate/validate-user.js'),
-            this.destinationPath('app/service/validate/validate-user.js')
-        );
-
-        this.fs.copy(
-            this.templatePath('app/service/user-server.js'),
-            this.destinationPath('app/service/user-server.js')
-        );
-
         mkdirp('config');
         var configTmpl = _.template(this.fs.read(this.templatePath('config/config.js')));
         this.fs.write(this.destinationPath('config/config.js'), configTmpl({
@@ -215,6 +252,10 @@ module.exports = class extends Generator {
             this.fs.copy(
                 this.templatePath('model/user.js'),
                 this.destinationPath('model/user.js')
+            );
+            this.fs.copy(
+                this.templatePath('lib/mongo.js'),
+                this.destinationPath('lib/mongo.js')
             );
             this.fs.copy(
                 this.templatePath('model/index.js'),
