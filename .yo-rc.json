@@ -1,7 +1,7 @@
 {
-  "generator-bt": {
+  "generator-pea": {
     "promptValues": {
-      "name": "23",
+      "name": "pea",
       "database": "MongoDB"
     }
   }
