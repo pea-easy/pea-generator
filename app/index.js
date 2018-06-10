@@ -194,7 +194,7 @@ module.exports = class extends Generator {
             this.destinationPath('.eslintrc.json')
         );
         var apidocTmpl = _.template(this.fs.read(this.templatePath('apidoc.json')));
-        this.fs.write(this.destinationPath('apidoc.js'), apidocTmpl({
+        this.fs.write(this.destinationPath('apidoc.json'), apidocTmpl({
             project_name: this.options.dirname
         }));
         this.fs.copy(
