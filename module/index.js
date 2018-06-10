@@ -28,6 +28,11 @@ module.exports = class extends Generator {
         this.fs.write(this.destinationPath('app/service/validate/validate-'+this.options.name+'.js'), validateTmpl({
             name: this.options.name
         }));
+
+        var apidocTmpl = _.template(this.fs.read(this.templatePath('app/routes/apiguide/api-template.js')));
+        this.fs.write(this.destinationPath('app/routes/apiguide/'+this.options.name+'.js'), apidocTmpl({
+            name: this.options.name
+        }));
     }
     // if the controller name is suffixed with ctrl, remove the suffix
     // if the controller name is just "ctrl," don't append/remove "ctrl"

@@ -4,5 +4,5 @@ router.prefix('/<%- name %>');
 
 
 
-router.get('/<%- name %>', <%- name %>Ctrl.<%- name %>);
+router.get('/', <%- name %>Ctrl.<%- name %>);
 module.exports = router;
