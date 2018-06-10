@@ -220,6 +220,12 @@ module.exports = class extends Generator {
 
         var pkg = this.fs.readJSON(this.templatePath('app/package.json'), {});
         extend(pkg, {
+            'private': true,
+            'scripts': {
+                'start': 'node server.js',
+                'eslint': 'eslint ./   --ignore-path ./eslintignore -c .eslintrc.json',
+                'doc': ' apidoc -i app/routes/ -o apidoc/'
+            },
             dependencies: {
                 '@koa/cors': '^2.2.1',
                 'apidoc': '^0.17.6',
