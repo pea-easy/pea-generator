@@ -8,10 +8,24 @@ module.exports = class extends Generator {
         this.options = {};
     }
     init(){
-        this.templatePath('app/routes/apiguide/user.js'),
         this.options.name = process.argv[3];
         var routeTmpl = _.template(this.fs.read(this.templatePath('app/routes/route-template.js')));
         this.fs.write(this.destinationPath('app/routes/'+this.options.name+'.js'), routeTmpl({
+            name: this.options.name
+        }));
+
+        var controllersTmpl = _.template(this.fs.read(this.templatePath('app/controllers/controller-template.js')));
+        this.fs.write(this.destinationPath('app/controllers/'+this.options.name+'-ctrl.js'), controllersTmpl({
+            name: this.options.name
+        }));
+
+        var serviceTmpl = _.template(this.fs.read(this.templatePath('app/service/service-template.js')));
+        this.fs.write(this.destinationPath('app/service/'+this.options.name+'-service.js'), serviceTmpl({
+            name: this.options.name
+        }));
+
+        var validateTmpl = _.template(this.fs.read(this.templatePath('app/service/validate/validate-template.js')));
+        this.fs.write(this.destinationPath('app/service/validate/validate-'+this.options.name+'.js'), validateTmpl({
             name: this.options.name
         }));
     }

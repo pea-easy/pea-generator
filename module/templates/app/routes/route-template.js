@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-let <%- name %>Ctrl = require('../controller/<%- name %>-ctrl');
+let <%- name %>Ctrl = require('../controllers/<%- name %>-ctrl');
 router.prefix('/<%- name %>');
 
 

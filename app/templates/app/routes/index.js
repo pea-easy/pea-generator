@@ -1,6 +1,15 @@
 const router = require('koa-router')();
-router.get('/', async (ctx) => {
-    ctx.body = { name: 'Hello World '};
-});
 
-module.exports = router;
+module.exports = (app) => {
+    app.use(router.routes(), router.allowedMethods());
+    router.get('/', async (ctx) => {
+        ctx.body = { name: 'Hello World '};
+    });
+
+    const user = require('./user');
+    app.use(user.routes(), user.allowedMethods());
+
+    const ctrl = require('./user');
+    app.use(ctrl.routes(), user.allowedMethods());
+    
+};
