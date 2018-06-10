@@ -106,10 +106,10 @@ module.exports = class extends Generator {
       
 
         if(this.options.database === 'mongodb'){
-            mkdirp('app/controller');
+            mkdirp('app/controllers');
             this.fs.copy(
-                this.templatePath('app/controller/user-mongo-ctrl.js'),
-                this.destinationPath('app/controller/user-ctrl.js')
+                this.templatePath('app/controllers/user-mongo-ctrl.js'),
+                this.destinationPath('app/controllers/user-ctrl.js')
             );
             this.fs.copy(
                 this.templatePath('./lib/spec-mongo.js'),
@@ -141,10 +141,10 @@ module.exports = class extends Generator {
                 this.destinationPath('app/service/user-server.js')
             );
         }else{
-            mkdirp('app/controller');
+            mkdirp('app/controllers');
             this.fs.copy(
-                this.templatePath('app/controller/user-ctrl.js'),
-                this.destinationPath('app/controller/user-ctrl.js')
+                this.templatePath('app/controllers/user-ctrl.js'),
+                this.destinationPath('app/controllers/user-ctrl.js')
             );
             mkdirp('app/dao');
             this.fs.copy(
