@@ -237,7 +237,6 @@ module.exports = class extends Generator {
             },
             dependencies: {
                 '@koa/cors': '^2.2.1',
-                'apidoc': '^0.17.6',
                 'debug': '^2.6.3',
                 'jslint': '^0.12.0',
                 'koa': '^2.5.1',
