@@ -1,6 +1,6 @@
 {
   "name": "generator-pea",
-  "version": "0.0.1",
+  "version": "0.0.12",
   "description": "a tool for generate project",
   "main": "index.js",
   "scripts": {

@@ -95,7 +95,6 @@ module.exports = class extends Generator {
             this.destinationPath('.core/index.js')
         );
 
-
         mkdirp('lib');
         mkdirp('lib/middleware');
 
@@ -103,7 +102,10 @@ module.exports = class extends Generator {
             this.templatePath('./lib/middleware/responseJSON.js'),
             this.destinationPath('./lib/middleware/responseJSON.js')
         );
-      
+        this.fs.copy(
+            this.templatePath('./lib/middleware/index.js'),
+            this.destinationPath('./lib/middleware/index.js')
+        );
 
         if(this.options.database === 'mongodb'){
             mkdirp('app/controllers');
@@ -187,12 +189,19 @@ module.exports = class extends Generator {
             project_name: this.options.dirname
         }));
 
+        mkdirp('test');
+        this.fs.copy(
+            this.templatePath('test/index.test.js'),
+            this.destinationPath('test/index.test.js')
+        );
 
         mkdirp('public');
         this.fs.copy(
             this.templatePath('.eslintrc.json'),
             this.destinationPath('.eslintrc.json')
         );
+
+        
         var apidocTmpl = _.template(this.fs.read(this.templatePath('apidoc.json')));
         this.fs.write(this.destinationPath('apidoc.json'), apidocTmpl({
             project_name: this.options.dirname
