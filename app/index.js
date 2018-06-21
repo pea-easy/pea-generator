@@ -95,6 +95,16 @@ module.exports = class extends Generator {
             this.destinationPath('.core/index.js')
         );
 
+        mkdirp('.vscode');
+
+        this.fs.copy(
+            this.templatePath('.vscode/settings.json'),
+            this.destinationPath('.vscode/settings.json')
+        );
+
+
+        
+
         mkdirp('lib');
         mkdirp('lib/middleware');
 
@@ -200,9 +210,16 @@ module.exports = class extends Generator {
             this.templatePath('.eslintrc.json'),
             this.destinationPath('.eslintrc.json')
         );
+
         this.fs.copy(
-            this.templatePath('.gitignore.json'),
-            this.destinationPath('.gitignore.json')
+            this.templatePath('.editorconfig'),
+            this.destinationPath('.editorconfig')
+        );
+
+        
+        this.fs.copy(
+            this.templatePath('.gitignore'),
+            this.destinationPath('.gitignore')
         );
 
         
