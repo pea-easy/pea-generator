@@ -1,6 +1,6 @@
 module.exports = {
     logger: {
-        'name': '<%- project_name %>',
+        name: '<%- project_name %>',
         level: 'info'
     }
    

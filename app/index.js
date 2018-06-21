@@ -200,6 +200,10 @@ module.exports = class extends Generator {
             this.templatePath('.eslintrc.json'),
             this.destinationPath('.eslintrc.json')
         );
+        this.fs.copy(
+            this.templatePath('.gitignore.json'),
+            this.destinationPath('.gitignore.json')
+        );
 
         
         var apidocTmpl = _.template(this.fs.read(this.templatePath('apidoc.json')));
