@@ -39,7 +39,7 @@ npm start
 
 After completing the above 3 steps, you will see the following information
 
-<img src="/src/images/generate-project.jpg"></img>
+<img src="https://github.com/pea-easy/peadoc-en/raw/master/src/images/generate-project.jpg"></img>
 
 # Contributors
 <table>
