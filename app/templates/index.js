@@ -7,9 +7,9 @@ const onerror = require('koa-onerror');
 // }));
 
 require('./.core/index');
+require('./lib/middleware/index')(app);
 require('./app/routes/index')(app);
 require('./lib/spec');
-require('./lib/middleware/index')(app);
 
 // error handler
 onerror(app);
