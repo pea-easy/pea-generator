@@ -5,13 +5,13 @@ var request  = require('supertest');
 
 describe('index', function () {
     beforeEach(function () {
-        
+
     });
 
     afterEach(function () {
-      
+
     });
-    it('should have model name "index"', function () {
+    it('should have model for "Hello World"', function () {
         request('http://127.0.0.1:8899')
             .get('/')
             .expect(200)
