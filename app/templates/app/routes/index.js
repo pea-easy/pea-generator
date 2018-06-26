@@ -5,11 +5,7 @@ module.exports = (app) => {
     router.get('/', async (ctx) => {
         ctx.body = { name: 'Hello World '};
     });
-
     const user = require('./user');
     app.use(user.routes(), user.allowedMethods());
 
-    const ctrl = require('./user');
-    app.use(ctrl.routes(), user.allowedMethods());
-    
 };
